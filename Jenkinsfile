@@ -1,17 +1,7 @@
-pipeline {
-    agent any
-
-    stages {
-        stage('Run App') {
-            steps {
-                sh 'python3 app.py'
-            }
-        }
-
-        stage('Build Docker') {
-            steps {
-                sh 'docker build -t hello-jenkins .'
-            }
-        }
+stage('Build Docker') {
+    steps {
+        sh 'docker build -t hello-jenkins .'
+        sh 'docker rm -f hello-jenkins || true'
+        sh 'docker run -d --name hello-jenkins -p 8080:8080 hello-jenkins'
     }
 }
